@@ -1,5 +1,5 @@
 ﻿namespace Tabuleiro {
-    class Piece {
+    abstract class Piece {
         public Position position { get; set; }
         public Color color { get; protected set; }
         public int NumberOfMoves { get; protected set; }
@@ -11,6 +11,8 @@
             NumberOfMoves = 0;
             this.board = board;
         }
+
+        public abstract bool[,] possibleMoves();
 
         public void numberOfMovesIncrement() {
             NumberOfMoves++;

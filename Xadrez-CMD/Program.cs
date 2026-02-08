@@ -13,9 +13,13 @@ namespace Xadrez_CMD {
                     Console.Clear();
                     Screen.printBoard(newGame.Board);
                     Console.WriteLine();
-                    Console.WriteLine("Origem: ");
+                    Console.Write("Origem: ");
                     Position origin = Screen.readPosition().toPosition();
-                    Console.WriteLine("Target: ");
+                    bool[,] possibleMoves = newGame.Board.piece(origin).possibleMoves();
+                    Console.Clear();
+                    Screen.printBoard(newGame.Board, possibleMoves);
+                    Console.WriteLine();
+                    Console.Write("Target: ");
                     Position target = Screen.readPosition().toPosition();
                     newGame.move(origin, target);   
                 }
