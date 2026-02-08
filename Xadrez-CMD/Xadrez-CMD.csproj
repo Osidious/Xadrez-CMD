@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <Folder Include="Aplicação\" />
-    <Folder Include="Controle\" />
   </ItemGroup>
 
 </Project>
