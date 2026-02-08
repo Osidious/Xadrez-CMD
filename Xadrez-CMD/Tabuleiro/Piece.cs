@@ -5,7 +5,7 @@
         public int NumberOfMoves { get; protected set; }
         public Board board { get; set; }
 
-        public Piece(Color color, Board board) {
+        public Piece(Board board, Color color) {
             this.position = null;
             this.color = color;
             NumberOfMoves = 0;

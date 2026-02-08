@@ -3,7 +3,7 @@ using Tabuleiro;
 
 namespace Controle {
     internal class Rook : Piece {
-        public Rook(Board board, Color color) : base(color, board) {
+        public Rook(Board board, Color color) : base(board, color) {
         }
 
         public override string ToString() {

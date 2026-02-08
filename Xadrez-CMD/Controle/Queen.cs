@@ -2,7 +2,7 @@
 
 namespace Controle {
     internal class Queen : Piece{
-        public Queen(Board board, Color color) : base(color, board) {
+        public Queen(Board board, Color color) : base(board, color) {
         }
 
         public override string ToString() {
