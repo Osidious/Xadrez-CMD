@@ -12,8 +12,8 @@
             this.board = board;
         }
 
-        
-
-
+        public void numberOfMovesIncrement() {
+            NumberOfMoves++;
+        }
     }
 }

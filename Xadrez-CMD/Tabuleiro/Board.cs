@@ -21,6 +21,14 @@ namespace Tabuleiro {
             Pieces[position.Line, position.Column] = piece;
             piece.position = position;
         }
+
+        public Piece removePiece(Position position) {
+            if (piece(position) == null)
+                return null;
+            Piece selectedPiece = piece(position);
+            Pieces[position.Line, position.Column] = null;
+            return selectedPiece;
+        }
         public Piece piece(int line, int column) {
             return Pieces[line, column];
         }
