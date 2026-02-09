@@ -23,8 +23,7 @@ namespace Xadrez_CMD {
                         Console.Write("Target: ");
                         Position target = Screen.readPosition().toPosition();
                         newGame.validateTarget(origin, target);
-                        newGame.makeAMove(origin, target);
-                        newGame.passTheTurn();
+                        newGame.play(origin, target);
                     }
                     catch (BoardException e) {
                         Console.WriteLine(e.Message);

@@ -11,6 +11,7 @@ namespace Controle {
         public bool GameEnded { get; private set; }
         private HashSet<Piece> pieces;
         private HashSet<Piece> capturedPieces;
+        public bool Check { get; private set; }
         public ChessGame() {
             Board = new Board(8, 8);
             turn = 1;
@@ -18,22 +19,42 @@ namespace Controle {
             GameEnded = false;
             pieces = new HashSet<Piece>();
             capturedPieces = new HashSet<Piece>();
+            Check = false;
             setBoard();
         }
-        public void move(Position origin, Position target) {
+        public Piece makeAMove(Position origin, Position target) {
             Piece movingPiece = Board.removePiece(origin);
             movingPiece.numberOfMovesIncrement();
             Piece capturedPiece = Board.removePiece(target);
             Board.addPiece(movingPiece, target);
             if (capturedPiece != null)
                 capturedPieces.Add(capturedPiece);
+            return capturedPiece;
+        }
+        private void undoMove(Position origin, Position target, Piece capturedPiece) {
+            Piece piece = Board.removePiece(target);
+            piece.numberOfMovesDecrement();
+
+            if(capturedPiece != null) {
+                Board.addPiece(capturedPiece, target);
+                capturedPieces.Remove(capturedPiece);
+            }
+            Board.addPiece(piece, origin);
         }
 
-        public void makeAMove(Position origin, Position target) {
-            move(origin, target);
+        public void play(Position origin, Position target) {
+            Piece capturedPiece = makeAMove(origin, target);
+            if(check(currentPlayer) == true) {
+                undoMove(origin, target, capturedPiece);
+                throw new BoardException("You cannot put yourself in check!!");
+            }
+            if (check(adversary(currentPlayer)) == true)
+                Check = true;
+            else
+                Check = false;
             turn++;
+            passTheTurn();
         }
-
         public HashSet<Piece> piecesCaptured(Color color) {
             HashSet<Piece> sortedCaptures = new HashSet<Piece>();
             foreach (Piece selectedPiece in capturedPieces) {
@@ -52,6 +73,36 @@ namespace Controle {
             }
             inPlay.ExceptWith(piecesCaptured(color));
             return inPlay;
+        }
+
+        private Color adversary(Color color) {
+            if (color == Color.White)
+                return Color.Black;
+            return Color.White;
+        }
+
+        private Piece whereIsTheKing(Color color) {
+            foreach (Piece piece in piecesInPlay(color)) {
+                if (piece is King)
+                    return piece;
+            }
+            return null;
+        }
+
+        public bool check(Color color) {
+            Piece king = whereIsTheKing(color);
+            if (king == null)
+                throw new BoardException("The king is missing somehow!!");
+            foreach (Piece piece in piecesInPlay(adversary(color))) {
+                try {
+                    bool[,] totalAvailiableMoves = piece.possibleMoves();
+                    if (totalAvailiableMoves[king.position.Line, king.position.Column] == true)
+                        return true;
+                }catch (NotImplementedException e) {
+                    //ignoring pieces not implemented yet
+                }
+            }
+            return false;
         }
         public void passTheTurn() {
             if (currentPlayer == Color.White)
@@ -73,6 +124,7 @@ namespace Controle {
             if (Board.piece(origin).validMoveAvailiable(Target) != true)
                 throw new BoardException("Target position Invalid!");
         }
+
 
         public void addNewPiece(char column, int line, Piece piece) {
             Board.addPiece(piece, new ChessPosition(column, line).toPosition());
@@ -99,7 +151,7 @@ namespace Controle {
             addNewPiece('e', 1, new King(Board, Color.White));
             for (int i = 0;i < 8;i++) {
                 addNewPiece((char)('a' + i), 7, new Pawn(Board, Color.Black));
-                addNewPiece((char)('a' + i), 2, new Pawn(Board, Color.White));
+                addNewPiece((char)('a' + i), 2, new Rook(Board, Color.White));
 
             }
         }

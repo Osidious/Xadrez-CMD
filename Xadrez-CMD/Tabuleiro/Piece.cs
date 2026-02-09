@@ -17,6 +17,9 @@
         public void numberOfMovesIncrement() {
             NumberOfMoves++;
         }
+        public void numberOfMovesDecrement() {
+            NumberOfMoves--;
+        }
 
         public bool validMove() {
             bool[,] validMoves = possibleMoves();
