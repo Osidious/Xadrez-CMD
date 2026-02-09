@@ -17,5 +17,20 @@
         public void numberOfMovesIncrement() {
             NumberOfMoves++;
         }
+
+        public bool validMove() {
+            bool[,] validMoves = possibleMoves();
+            for (int i = 0;i < board.NumberOfLines;i++) {
+                for (int j = 0;j < board.NumberOfColumns;j++) {
+                    if (validMoves[i, j] == true)
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        public bool validMoveAvailiable(Position position) {
+            return possibleMoves()[position.Line, position.Column];
+        }
     }
 }

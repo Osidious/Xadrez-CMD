@@ -5,16 +5,16 @@ using Tabuleiro;
 
 namespace Controle {
     internal class ChessPosition {
-        public char Line { get; set; }
-        public int Column { get; set; }
+        public char Column { get; set; }
+        public int Line { get; set; }
 
-        public ChessPosition(char line, int column) {
+        public ChessPosition(char column, int line) {
             Line = line;
             Column = column;
         }
 
         public Position toPosition() {
-            return new Position(8 - Column,Line - 'a');
+            return new Position(8 - Line,Column - 'a');
         }
 
         public override string ToString() {

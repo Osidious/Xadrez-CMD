@@ -5,6 +5,35 @@ using Tabuleiro;
 
 namespace Xadrez_CMD {
     class Screen {
+
+        public static void printGame(ChessGame newGame) {
+            printBoard(newGame.Board);
+            Console.WriteLine();
+            printCapturedPieces(newGame);
+            Console.WriteLine();
+            Console.WriteLine($"Turn: {newGame.turn}");
+            Console.WriteLine($"Waiting for the {newGame.currentPlayer} Player to make a move: ");
+        }
+        public static void printCapturedPieces(ChessGame newGame) {
+            Console.WriteLine("Pieces Captured: ");
+            Console.Write("White: ");
+            printSet(newGame.piecesCaptured(Color.White));
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("Black: ");
+            printSet(newGame.piecesCaptured(Color.Black));
+            Console.ResetColor();
+            Console.WriteLine();
+        }
+
+        public static void printSet(HashSet<Piece> set) {
+            Console.Write("[");
+            foreach (Piece selected in set) {
+                Console.Write($" {selected} ");
+            }
+            Console.Write("]");
+
+        }
         public static void printBoard(Board board) {
             for (int i = 0;i < board.NumberOfLines;i++) {
                 Console.ForegroundColor = ConsoleColor.Red;
