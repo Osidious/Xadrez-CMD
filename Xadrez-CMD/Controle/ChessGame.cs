@@ -35,7 +35,7 @@ namespace Controle {
             Piece piece = Board.removePiece(target);
             piece.numberOfMovesDecrement();
 
-            if(capturedPiece != null) {
+            if (capturedPiece != null) {
                 Board.addPiece(capturedPiece, target);
                 capturedPieces.Remove(capturedPiece);
             }
@@ -44,7 +44,7 @@ namespace Controle {
 
         public void play(Position origin, Position target) {
             Piece capturedPiece = makeAMove(origin, target);
-            if(check(currentPlayer) == true) {
+            if (check(currentPlayer) == true) {
                 undoMove(origin, target, capturedPiece);
                 throw new BoardException("You cannot put yourself in check!!");
             }
@@ -52,8 +52,12 @@ namespace Controle {
                 Check = true;
             else
                 Check = false;
-            turn++;
-            passTheTurn();
+            if (checkMate(adversary(currentPlayer)))
+                GameEnded = true;
+            else {
+                turn++;
+                passTheTurn();
+            }
         }
         public HashSet<Piece> piecesCaptured(Color color) {
             HashSet<Piece> sortedCaptures = new HashSet<Piece>();
@@ -98,11 +102,38 @@ namespace Controle {
                     bool[,] totalAvailiableMoves = piece.possibleMoves();
                     if (totalAvailiableMoves[king.position.Line, king.position.Column] == true)
                         return true;
-                }catch (NotImplementedException e) {
+                }
+                catch (NotImplementedException e) {
                     //ignoring pieces not implemented yet
                 }
             }
             return false;
+        }
+
+        public bool checkMate(Color color) {
+            if (check(color) == false)
+                return false;
+            foreach (Piece selected in piecesInPlay(color)) {
+                try {
+                    bool [,] availiableMoves = selected.possibleMoves();
+                    for (int i = 0;i < Board.NumberOfLines;i++) {
+                        for (int j = 0;j < Board.NumberOfColumns;j++) {
+                            if (availiableMoves[i, j] == true) {
+                                Position origin = selected.position;
+                                Position target = new Position(i, j);
+                                Piece capturedPiece = makeAMove(origin, target);
+                                bool checkTest = check(color);
+                                undoMove(origin, target, capturedPiece);
+                                if (!checkTest)
+                                    return false;
+                            }
+                        }
+                    }
+                }catch (NotImplementedException e) {
+                    //not implemented
+                }
+            }
+            return true;
         }
         public void passTheTurn() {
             if (currentPlayer == Color.White)
