@@ -9,38 +9,38 @@ namespace Controle {
             bool[,] possibleMoves = new bool[board.NumberOfLines, board.NumberOfColumns];
             Position currentPosition = new Position(0, 0);
 
-            //numpad positions starting at 8 and going clock-wise
+            //positions starting at up and going clock-wise
 
-            //8
+            //Up
             currentPosition.setPosition(position.Line - 1, position.Column);
             if (board.validPosition(currentPosition) && validMove(currentPosition))
                 possibleMoves[currentPosition.Line, currentPosition.Column] = true;
 
-            //9
+            //up right
             currentPosition.setPosition(position.Line - 1, position.Column + 1);
             if (board.validPosition(currentPosition) && validMove(currentPosition))
                 possibleMoves[currentPosition.Line, currentPosition.Column] = true;
-            //6
+            //right
             currentPosition.setPosition(position.Line, position.Column + 1);
             if (board.validPosition(currentPosition) && validMove(currentPosition))
                 possibleMoves[currentPosition.Line, currentPosition.Column] = true;
-            //3
+            //down right
             currentPosition.setPosition(position.Line + 1, position.Column + 1);
             if (board.validPosition(currentPosition) && validMove(currentPosition))
                 possibleMoves[currentPosition.Line, currentPosition.Column] = true;
-            //2
+            //down
             currentPosition.setPosition(position.Line + 1, position.Column);
             if (board.validPosition(currentPosition) && validMove(currentPosition))
                 possibleMoves[currentPosition.Line, currentPosition.Column] = true;
-            //1
+            //down left
             currentPosition.setPosition(position.Line + 1, position.Column - 1);
             if (board.validPosition(currentPosition) && validMove(currentPosition))
                 possibleMoves[currentPosition.Line, currentPosition.Column] = true;
-            //4
+            //left
             currentPosition.setPosition(position.Line, position.Column - 1);
             if (board.validPosition(currentPosition) && validMove(currentPosition))
                 possibleMoves[currentPosition.Line, currentPosition.Column] = true;
-            //7
+            //up left
             currentPosition.setPosition(position.Line - 1, position.Column - 1);
             if (board.validPosition(currentPosition) && validMove(currentPosition))
                 possibleMoves[currentPosition.Line, currentPosition.Column] = true;

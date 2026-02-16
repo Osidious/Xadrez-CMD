@@ -10,9 +10,9 @@ namespace Controle {
             bool[,] possibleMoves = new bool[board.NumberOfLines, board.NumberOfColumns];
             Position currentPosition = new Position(0, 0);
 
-            //numpad positions starting at 8 and going clock-wise
+            //positions starting at up and going clock-wise
 
-            //8
+            //Up
             currentPosition.setPosition(position.Line - 1, position.Column);
             while (board.validPosition(currentPosition) && validMove(currentPosition)) {
                 possibleMoves[currentPosition.Line, currentPosition.Column] = true;
@@ -20,7 +20,7 @@ namespace Controle {
                     break;
                 currentPosition.Line--;
             }
-            //6
+            //Right
             currentPosition.setPosition(position.Line, position.Column + 1);
             while (board.validPosition(currentPosition) && validMove(currentPosition)) {
                 possibleMoves[currentPosition.Line, currentPosition.Column] = true;
@@ -28,7 +28,7 @@ namespace Controle {
                     break;
                 currentPosition.Column++;
             }
-            //2
+            //Down
             currentPosition.setPosition(position.Line + 1, position.Column);
             while (board.validPosition(currentPosition) && validMove(currentPosition)) {
                 possibleMoves[currentPosition.Line, currentPosition.Column] = true;
@@ -36,7 +36,7 @@ namespace Controle {
                     break;
                 currentPosition.Line++;
             }
-            //4
+            //Left
             currentPosition.setPosition(position.Line, position.Column - 1);
             while (board.validPosition(currentPosition) && validMove(currentPosition)) {
                 possibleMoves[currentPosition.Line, currentPosition.Column] = true;

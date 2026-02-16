@@ -10,7 +10,6 @@ namespace Xadrez_CMD {
                 ChessGame newGame = new ChessGame();
                 while (!newGame.GameEnded) {
                     try {
-
                         Console.Clear();
                         Screen.printGame(newGame);
                         Console.Write("Origin: ");
@@ -30,7 +29,8 @@ namespace Xadrez_CMD {
                         Console.ReadLine();
                     }
                 }
-
+                Console.Clear();
+                Screen.printGame(newGame);
             }
             catch (BoardException e) {
                 Console.WriteLine(e.Message);

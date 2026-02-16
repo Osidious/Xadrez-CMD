@@ -8,49 +8,48 @@ namespace Controle {
 
         public override bool[,] possibleMoves() {
             bool[,] possibleMoves = new bool[board.NumberOfLines, board.NumberOfColumns];
-            Position currentPosition = new Position(0, 0);
-            if (color == Color.White) {
-                // 1 square forward
-                currentPosition.setPosition(position.Line - 1, position.Column);
-                if (board.validPosition(currentPosition) && board.piece(currentPosition) == null) {
-                    possibleMoves[currentPosition.Line, currentPosition.Column] = true;
-                }
 
-                // 2 squares forward (first move only)
-                currentPosition.setPosition(position.Line - 2, position.Column);
-                Position pos2 = new Position(position.Line - 1, position.Column);
+            int direction = (color == Color.White) ? -1 : 1; // white up (-1), black down (+1)
 
-                if (board.validPosition(currentPosition) &&
-                    board.piece(currentPosition) == null &&
-                    board.piece(pos2) == null &&
-                    NumberOfMoves == 0) {
+            Position oneAhead = new Position(0, 0);
+            Position twoAhead = new Position(0, 0);
+            Position diag = new Position(0, 0);
 
-                    possibleMoves[currentPosition.Line, currentPosition.Column] = true;
+            // 1 square forward
+            oneAhead.setPosition(position.Line + direction, position.Column);
+            if (board.validPosition(oneAhead) && board.piece(oneAhead) == null) {
+                possibleMoves[oneAhead.Line, oneAhead.Column] = true;
+
+                // 2 squares forward (first move only) - only if 1 ahead is empty
+                twoAhead.setPosition(position.Line + 2 * direction, position.Column);
+                if (NumberOfMoves == 0 && board.validPosition(twoAhead) && board.piece(twoAhead) == null) {
+                    possibleMoves[twoAhead.Line, twoAhead.Column] = true;
                 }
             }
-            else {
-                // 1 square forward (black moves down the board)
-                currentPosition.setPosition(position.Line + 1, position.Column);
-                if (board.validPosition(currentPosition) && board.piece(currentPosition) == null) {
-                    possibleMoves[currentPosition.Line, currentPosition.Column] = true;
+
+            // diagonal left capture
+            diag.setPosition(position.Line + direction, position.Column - 1);
+            if (board.validPosition(diag)) {
+                Piece p = board.piece(diag);
+                if (p != null && p.color != color) {
+                    possibleMoves[diag.Line, diag.Column] = true;
                 }
+            }
 
-                // 2 squares forward (first move only)
-                currentPosition.setPosition(position.Line + 2, position.Column);
-                Position pos2 = new Position(position.Line + 1, position.Column);
-
-                if (board.validPosition(currentPosition) &&
-                    board.piece(currentPosition) == null &&
-                    board.piece(pos2) == null &&
-                    NumberOfMoves == 0) {
-
-                    possibleMoves[currentPosition.Line, currentPosition.Column] = true;
+            // diagonal right capture
+            diag.setPosition(position.Line + direction, position.Column + 1);
+            if (board.validPosition(diag)) {
+                Piece p = board.piece(diag);
+                if (p != null && p.color != color) {
+                    possibleMoves[diag.Line, diag.Column] = true;
                 }
-                //black pawn logic
             }
 
             return possibleMoves;
+        
         }
+
+
 
         public override string ToString() {
             return "P";

@@ -182,8 +182,7 @@ namespace Controle {
             addNewPiece('e', 1, new King(Board, Color.White));
             for (int i = 0;i < 8;i++) {
                 addNewPiece((char)('a' + i), 7, new Pawn(Board, Color.Black));
-                addNewPiece((char)('a' + i), 2, new Rook(Board, Color.White));
-
+                addNewPiece((char)('a' + i), 2, new Pawn(Board, Color.White));
             }
         }
     }

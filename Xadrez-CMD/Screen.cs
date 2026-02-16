@@ -12,9 +12,16 @@ namespace Xadrez_CMD {
             printCapturedPieces(newGame);
             Console.WriteLine();
             Console.WriteLine($"Turn: {newGame.turn}");
-            Console.WriteLine($"Waiting for the {newGame.currentPlayer} Player to make a move: ");
-            if(newGame.Check == true)
-                Console.WriteLine("Check!");
+            if (newGame.GameEnded == false) {
+                Console.WriteLine($"Waiting for the {newGame.currentPlayer} Player to make a move: ");
+                if (newGame.Check == true)
+                    Console.WriteLine("Check!");
+            }
+            else {
+                Console.WriteLine("Check Mate!");
+                Console.WriteLine($"Winner: {newGame.currentPlayer}!!");
+            }
+
         }
         public static void printCapturedPieces(ChessGame newGame) {
             Console.WriteLine("Pieces Captured: ");
